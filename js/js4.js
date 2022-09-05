@@ -26,8 +26,20 @@ document.body.appendChild( renderer.domElement );
 
 
 const geometry = new THREE.TorusGeometry( 10, 3, 16, 100 );
-const material = new THREE.MeshBasicMaterial( {color: 'yellow', wireframe: true} );
-const cube = new THREE.Mesh( geometry, material );
+
+const TextureLoader = new THREE.TextureLoader();
+const matcap = TextureLoader.load("../imagenes/hola4.jpg") 
+
+const edges = new THREE.EdgesGeometry( geometry );
+const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
+scene.add( line );
+
+const material1 = new THREE.MeshMatcapMaterial();
+material1.matcap = matcap
+material1.flatShading = true
+
+
+const cube = new THREE.Mesh( geometry, material1 );
 scene.add( cube );
 
 camera.position.z = 25;
@@ -38,8 +50,10 @@ camera.position.z = 25;
 function animate (){
 
     requestAnimationFrame( animate );
-    //cube.rotation.x += 0.01;
+    cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
+    line.rotation.x += 0.01;
+    line.rotation.y += 0.01;
 	renderer.render( scene, camera );
 
 }

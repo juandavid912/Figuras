@@ -4,10 +4,6 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xAB40FF);
 
 
-var fogColor = new THREE.Color(0x000000);
-scene.background = fogColor; 
-scene.fog = new THREE.Fog(fogColor, 0.60, 5);
-
 //camaras
 
 const camera = new THREE.PerspectiveCamera (75, window.innerWidth / window.innerHeight);
@@ -22,8 +18,20 @@ document.body.appendChild( renderer.domElement );
 
 
 const geometry = new THREE.ConeGeometry( 2, 3, 5 );
-const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-const cube = new THREE.Mesh( geometry, material );
+
+const TextureLoader = new THREE.TextureLoader();
+const matcap = TextureLoader.load("../imagenes/hola1.jpg") 
+
+const edges = new THREE.EdgesGeometry( geometry );
+const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
+scene.add( line );
+
+const material1 = new THREE.MeshMatcapMaterial();
+material1.matcap = matcap
+material1.flatShading = true
+
+
+const cube = new THREE.Mesh( geometry, material1 );
 scene.add( cube );
 
 camera.position.z = 5;
@@ -34,8 +42,10 @@ camera.position.z = 5;
 function animate (){
 
     requestAnimationFrame( animate );
-    //cube.rotation.x += 0.01;
+    cube.rotation.x += 0.01;
     cube.rotation.y += 0.003;
+    line.rotation.x += 0.01;
+    line.rotation.y += 0.003;
 	renderer.render( scene, camera );
 
 }
