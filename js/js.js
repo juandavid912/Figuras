@@ -93,7 +93,7 @@ const cylinder = new THREE.Mesh( geometry4, material4 );
 scene.add( cylinder );
 
 //fin de la figura 4
-
+ 
 const control = new THREE.DragControls([cube, line, sphere,line2, capsule, line3, cylinder, line4 ], camera, renderer.domElement);
 
 const flyControls = new THREE.FlyControls (camera, renderer.domElement)
